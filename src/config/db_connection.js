@@ -10,11 +10,15 @@ const connection = mysql.createConnection({
 
 // menghubungkan server dengan mysql db
 connection.connect(error => {
-  if (error) {
+  if (!error) {
+    // console.log(process.env.DB_HOST, process.env.DB_NAME)
+    console.log("MySQL Database connection is established");
+
+  } else {
     console.log(error);
+    console.log("MySQL Database connection is not established");
+
   }
-  // console.log(process.env.DB_HOST, process.env.DB_NAME)
-  console.log("MySQL Database connection is established");
 });
 
 module.exports = connection;

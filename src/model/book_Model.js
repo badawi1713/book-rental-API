@@ -1,5 +1,5 @@
 const connection = require("../config/db_connection");
-const paginate = require("express-paginate");
+
 module.exports = {
     // GET BOOKS DATA * COUNT
     getBooksCount: () => {
@@ -16,9 +16,12 @@ module.exports = {
 
     // GET ALL BOOKS DATA
     getAllBooks: (search, sortBy, sort, offset, limit) => {
+        // console.log(sortBy);
+        // console.log(sort);
         return new Promise((resolve, reject) => {
-            connection.query(`SELECT * FROM book WHERE title LIKE CONCAT('%',?,'%') ORDER BY ? ? LIMIT ?, ?`, [search, sortBy, sort, offset, limit], (error, result) => {
+            connection.query(`SELECT b.*, g.name as genre FROM book b INNER JOIN genre g ON b.genre = g.id WHERE title LIKE CONCAT('%',?,'%') ORDER BY ${sortBy} ${sort} LIMIT ?, ?`, [search, offset, limit], (error, result) => {
                 if (!error) {
+                    // console.log(result)
                     resolve(result);
                 } else {
                     reject(new Error(error));
@@ -48,7 +51,7 @@ module.exports = {
     editBookData: (bookData, id) => {
         return new Promise((resolve, reject) => {
             connection.query(
-                `UPDATE book SET d? WHERE id = ?`,
+                `UPDATE book SET ? WHERE id = ?`,
                 [bookData, id],
                 (error, result) => {
                     if (!error) {
@@ -95,97 +98,122 @@ module.exports = {
         });
     },
 
-    // SORT BOOK'S DATA BY TITLE (A-Z)
-    sortBookByTitle: () => {
+    // RENT BOOK DATA (AVAILABLE)
+    rentBook: (available, id) => {
         return new Promise((resolve, reject) => {
-            connection.query("SELECT * FROM book ORDER BY title", (error, result) => {
+            connection.query(`UPDATE book SET available = ? WHERE id = ?`, [available, id], (error, result) => {
                 if (!error) {
-                    resolve(result);
+                    resolve(result)
                 } else {
-                    reject(new Error(error));
+                    reject(new Error(error))
                 }
-            });
-        });
+            })
+        })
     },
+
+    // RETURN BOOK DATA (AVAILABLE)
+    returnBook: (available, id) => {
+        return new Promise((resolve, reject) => {
+            connection.query(`UPDATE book SET available = ? WHERE id = ?`, [available, id], (error, result) => {
+                if (!error) {
+                    resolve(result)
+                } else {
+                    reject(new Error(error))
+                }
+            })
+        })
+    },
+
+    // SORT BOOK'S DATA BY TITLE (A-Z)
+    // sortBookByTitle: () => {
+    //     return new Promise((resolve, reject) => {
+    //         connection.query("SELECT * FROM book ORDER BY title", (error, result) => {
+    //             if (!error) {
+    //                 resolve(result);
+    //             } else {
+    //                 reject(new Error(error));
+    //             }
+    //         });
+    //     });
+    // },
 
     // SORT BOOK'S DATA BY DATE (NEW-OLD)
-    sortBookByDate: () => {
-        return new Promise((resolve, reject) => {
-            connection.query(
-                "SELECT * FROM book ORDER BY released_date",
-                (error, result) => {
-                    if (!error) {
-                        resolve(result);
-                    } else {
-                        reject(new Error(error));
-                    }
-                }
-            );
-        });
-    },
+    // sortBookByDate: () => {
+    //     return new Promise((resolve, reject) => {
+    //         connection.query(
+    //             "SELECT * FROM book ORDER BY released_date",
+    //             (error, result) => {
+    //                 if (!error) {
+    //                     resolve(result);
+    //                 } else {
+    //                     reject(new Error(error));
+    //                 }
+    //             }
+    //         );
+    //     });
+    // },
 
     // SORT BOOK'S DATA BY GENRE (A-Z)
-    sortBookByGenre: () => {
-        return new Promise((resolve, reject) => {
-            connection.query("SELECT * FROM book ORDER BY genre", (error, result) => {
-                if (!error) {
-                    resolve(result);
-                } else {
-                    reject(new Error(error));
-                }
-            });
-        });
-    },
+    // sortBookByGenre: () => {
+    //     return new Promise((resolve, reject) => {
+    //         connection.query("SELECT * FROM book ORDER BY genre", (error, result) => {
+    //             if (!error) {
+    //                 resolve(result);
+    //             } else {
+    //                 reject(new Error(error));
+    //             }
+    //         });
+    //     });
+    // },
 
     // SORT BOOK'S DATA BY AVAILABLE (TRUE-FALSE)
-    sortBookByAvailable: () => {
-        return new Promise((resolve, reject) => {
-            connection.query(
-                "SELECT * FROM book ORDER BY available",
-                (error, result) => {
-                    if (!error) {
-                        resolve(result);
-                    } else {
-                        reject(new Error(error));
-                    }
-                }
-            );
-        });
-    },
+    // sortBookByAvailable: () => {
+    //     return new Promise((resolve, reject) => {
+    //         connection.query(
+    //             "SELECT * FROM book ORDER BY available",
+    //             (error, result) => {
+    //                 if (!error) {
+    //                     resolve(result);
+    //                 } else {
+    //                     reject(new Error(error));
+    //                 }
+    //             }
+    //         );
+    //     });
+    // },
 
     // SEARCH BOOK'S DATA BY TITLE
-
-    searchBookTitle: title => {
-        return new Promise((resolve, reject) => {
-            // let title = req.params.title;
-            connection.query(
-                "SELECT * FROM book WHERE title LIKE CONCAT('%',?,'%') LIMIT ?,?",
-                [title, 0, 10],
-                (error, result) => {
-                    if (!error) {
-                        resolve(result);
-                    } else {
-                        reject(new Error(error));
-                    }
-                }
-            );
-        });
-    },
+    // searchBookTitle: title => {
+    //     return new Promise((resolve, reject) => {
+    //         // let title = req.params.title;
+    //         connection.query(
+    //             "SELECT * FROM book WHERE title LIKE CONCAT('%',?,'%') LIMIT ?,?",
+    //             [title, 0, 10],
+    //             (error, result) => {
+    //                 if (!error) {
+    //                     resolve(result);
+    //                 } else {
+    //                     reject(new Error(error));
+    //                 }
+    //             }
+    //         );
+    //     });
+    // },
 
     //   PAGINATION BOOK'S DATA
-    getBookPagination: (offset, limit) => {
-        return new Promise((resolve, reject) => {
-            connection.query(
-                `SELECT * FROM book LIMIT ?, ?`,
-                [offset, limit],
-                (error, result) => {
-                    if (!error) {
-                        resolve(result);
-                    } else {
-                        reject(new Error(error));
-                    }
-                }
-            );
-        });
-    }
+    // getBookPagination: (offset, limit) => {
+    //     return new Promise((resolve, reject) => {
+    //         connection.query(
+    //             `SELECT * FROM book LIMIT ?, ?`,
+    //             [offset, limit],
+    //             (error, result) => {
+    //                 if (!error) {
+    //                     resolve(result);
+    //                 } else {
+    //                     reject(new Error(error));
+    //                 }
+    //             }
+    //         );
+    //     });
+    // }
 };
