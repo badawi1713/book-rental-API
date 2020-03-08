@@ -4,7 +4,7 @@ module.exports = {
     // GET BOOKS DATA * COUNT
     getBooksCount: () => {
         return new Promise((resolve, reject) => {
-            connection.query(`SELECT COUNT(*) as TotalBooks FROM book`, (error, result) => {
+            connection.query(`SELECT COUNT(*) as TotalBooks FROM books`, (error, result) => {
                 if (!error) {
                     resolve(result);
                 } else {
@@ -19,7 +19,7 @@ module.exports = {
         // console.log(sortBy);
         // console.log(sort);
         return new Promise((resolve, reject) => {
-            connection.query(`SELECT b.*, g.name as genre FROM book b INNER JOIN genre g ON b.genre = g.id WHERE title LIKE CONCAT('%',?,'%') ORDER BY ${sortBy} ${sort} LIMIT ?, ?`, [search, offset, limit], (error, result) => {
+            connection.query(`SELECT b.*, g.name as genre FROM books b INNER JOIN genres g ON b.genre = g.id WHERE title LIKE CONCAT('%',?,'%') ORDER BY ${sortBy} ${sort} LIMIT ?, ?`, [search, offset, limit], (error, result) => {
                 if (!error) {
                     // console.log(result)
                     resolve(result);
@@ -34,7 +34,7 @@ module.exports = {
     addNewBook: bookData => {
         return new Promise((resolve, reject) => {
             connection.query(
-                `INSERT INTO book SET ?`,
+                `INSERT INTO books SET ?`,
                 [bookData],
                 (error, result) => {
                     if (!error) {
@@ -51,7 +51,7 @@ module.exports = {
     editBookData: (bookData, id) => {
         return new Promise((resolve, reject) => {
             connection.query(
-                `UPDATE book SET ? WHERE id = ?`,
+                `UPDATE books SET ? WHERE id = ?`,
                 [bookData, id],
                 (error, result) => {
                     if (!error) {
@@ -68,7 +68,7 @@ module.exports = {
     deleteBookData: id => {
         return new Promise((resolve, reject) => {
             connection.query(
-                `DELETE FROM book WHERE id = ?`,
+                `DELETE FROM books WHERE id = ?`,
                 [id],
                 (error, result) => {
                     if (!error) {
@@ -85,7 +85,7 @@ module.exports = {
     getBookByID: id => {
         return new Promise((resolve, reject) => {
             connection.query(
-                `SELECT * FROM book WHERE id = ?`,
+                `SELECT * FROM books WHERE id = ?`,
                 [id],
                 (error, result) => {
                     if (!error) {
@@ -101,7 +101,7 @@ module.exports = {
     // RENT BOOK DATA (AVAILABLE)
     rentBook: (available, id) => {
         return new Promise((resolve, reject) => {
-            connection.query(`UPDATE book SET available = ? WHERE id = ?`, [available, id], (error, result) => {
+            connection.query(`UPDATE books SET available = ? WHERE id = ?`, [available, id], (error, result) => {
                 if (!error) {
                     resolve(result)
                 } else {
@@ -114,7 +114,7 @@ module.exports = {
     // RETURN BOOK DATA (AVAILABLE)
     returnBook: (available, id) => {
         return new Promise((resolve, reject) => {
-            connection.query(`UPDATE book SET available = ? WHERE id = ?`, [available, id], (error, result) => {
+            connection.query(`UPDATE books SET available = ? WHERE id = ?`, [available, id], (error, result) => {
                 if (!error) {
                     resolve(result)
                 } else {

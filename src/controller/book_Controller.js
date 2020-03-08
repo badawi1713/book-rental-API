@@ -125,11 +125,6 @@ exports.getBookDataByID = (req, res, next) => {
 };
 
 exports.rentBook = (req, res, next) => {
-  // let requireCheck = [];
-  // !available ? requireCheck.push('available in body is required') : '';
-  // if (requireCheck.length) {
-  //   return helper.response(res, error, 400, "Error");
-  // }
   const id = req.params.id;
   Book.getBookByID(id).then(result => {
     console.log(result[0].available)

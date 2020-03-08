@@ -22,7 +22,7 @@ const book_router = require("./src/routes/book_Router");
 const genre_router = require("./src/routes/genre_Router");
 const auth_router = require("./src/routes/auth_Router");
 
-app.use("/api/v1/", auth_router);
+app.use("/api/v1/users", auth_router);
 app.use("/api/v1/books", book_router);
 app.use("/api/v1/genres", genre_router);
 
