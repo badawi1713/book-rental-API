@@ -6,11 +6,11 @@ const auth = require("../helpers/auth")
 // List of book's routes
 router.get("/", book_Controller.getAllBooks);
 router.get("/:id", book_Controller.getBookDataByID);
-router.post("/add-book", auth.authInfo, auth.accessToken, book_Controller.addNewBook);
-router.patch("/edit-book/:id", auth.authInfo, auth.accessToken, book_Controller.editBookData);
-router.patch("/rent-book/:id", auth.authInfo, auth.accessToken, book_Controller.rentBook);
-router.patch("/return-book/:id", auth.authInfo, auth.accessToken, book_Controller.returnBook);
-router.delete("/delete-book/:id", auth.authInfo, auth.accessToken, book_Controller.deleteBookData);
+router.post("/add", auth.authInfo, auth.accessToken, book_Controller.addNewBook);
+router.patch("/update/:id", auth.authInfo, auth.accessToken, book_Controller.editBookData);
+router.patch("/rent/:id", auth.authInfo, auth.accessToken, book_Controller.rentBook);
+router.patch("/return/:id", auth.authInfo, auth.accessToken, book_Controller.returnBook);
+router.delete("/delete/:id", auth.authInfo, auth.accessToken, book_Controller.deleteBookData);
 
 // router.get("/books", admin_Controller.getBookPagination);
 // router.get("/search", admin_Controller.getSearchBookByTitle);
