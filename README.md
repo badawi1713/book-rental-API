@@ -33,3 +33,19 @@ For development, you will only need Node.js and a node global package, Yarn, ins
 | 11  | PATCH       | /api/v1/books/rent/:book_id         | Rent the book by it’s ID                   |
 | 12  | PATCH       | /api/v1/books/return/:book_id       | Return the book by it’s ID                 |
 | 13  | DELETE      | /api/v1/books/delete/:book_id       | Delete the book’s data from database by ID |
+
+## Genre's endpoint
+
+| No  | HTTP Method | URI                             | Operation                                  |
+| --- | ----------- | ------------------------------- | ------------------------------------------ |
+| 1   | GET         | /api/v1/genres/                 | Get all genres data                        |
+| 2   | POST        | /api/v1/genres/add              | Insert new genre data                      |
+| 3   | PATCH       | /api/v1/genres/update/:genre_id | Edit or update the genre’s data by it’s ID |
+| 4   | DELETE      | /api/v1/genres/delete/:genre_id | Delete genre’s data by it’s ID             |
+
+## User's endpoint
+
+| No  | HTTP Method | URI                    | Operation                                                             |
+| --- | ----------- | ---------------------- | --------------------------------------------------------------------- |
+| 1   | POST        | /api/v1/users/register | Insert new user data                                                  |
+| 2   | POST        | /api/v1/users/login    | User’s login to get JWT token’s for full access on the backend system |
