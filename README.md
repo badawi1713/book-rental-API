@@ -49,3 +49,5 @@ For development, you will only need Node.js and a node global package, Yarn, ins
 | --- | ----------- | ---------------------- | --------------------------------------------------------------------- |
 | 1   | POST        | /api/v1/users/register | Insert new user data                                                  |
 | 2   | POST        | /api/v1/users/login    | User’s login to get JWT token’s for full access on the backend system |
+
+##### Thank You~
