@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2020 at 05:17 PM
+-- Generation Time: Mar 08, 2020 at 07:37 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -43,7 +43,7 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`id`, `title`, `released_date`, `imageURL`, `description`, `available`, `genre`) VALUES
-(1, 'Anne of Green Gables', '06/09/1908', 'https://images-na.ssl-images-amazon.com/images/I/51X09FpauIL._SX331_BO1,204,203,200_.jpg', 'As soon as Anne Shirley arrives at the snug white farmhouse called Green Gables, she is sure she wants to stay forever . . . but will the Cuthberts send her back to to the orphanage? Anne knows she\'s not what they expected—a skinny girl with fiery red hair and a temper to match. If only she can convince them to let her stay, she\'ll try very hard not to keep rushing headlong into scrapes and blurting out the first thing that comes to her mind. Anne is not like anyone else, the Cuthberts agree; she is special—a girl with an enormous imagination. This orphan girl dreams of the day when she can call herself Anne of Green Gables.', 'true', 1),
+(1, 'Anne of Green Gables 2', '06/09/1908', 'https://images-na.ssl-images-amazon.com/images/I/51X09FpauIL._SX331_BO1,204,203,200_.jpg', 'As soon as Anne Shirley arrives at the snug white farmhouse called Green Gables, she is sure she wants to stay forever . . . but will the Cuthberts send her back to to the orphanage? Anne knows she\'s not what they expected—a skinny girl with fiery red hair and a temper to match. If only she can convince them to let her stay, she\'ll try very hard not to keep rushing headlong into scrapes and blurting out the first thing that comes to her mind. Anne is not like anyone else, the Cuthberts agree; she is special—a girl with an enormous imagination. This orphan girl dreams of the day when she can call herself Anne of Green Gables.', 'true', 1),
 (2, 'Adventure Time', '04/05/2010', 'https://www.mainmain.id/uploads/post/2019/10/25/Adventure_Times_-_mainmain.id_3_.jpg', 'Twelve- year-old Finn battles evil in the Land of Ooo. Assisted by his magical dog, Jake, Finn roams the Land of Ooo righting wrongs and battling evil. Usually that evil comes in the form of the Ice King, who is in search of a wife.', 'true', 2),
 (3, 'Gravity Falls', '06/15/2012', 'https://m.media-amazon.com/images/M/MV5BMTEzNDc3MDQ2NzNeQTJeQWpwZ15BbWU4MDYzMzUwMDIx._V1_.jpg', 'Gravity Falls is an American animated mystery comedy television series created by Alex Hirsch for Disney Channel and Disney XD. ', 'true', 2),
 (4, 'Barakamon', '02/14/2009', 'https://m.media-amazon.com/images/M/MV5BYWM4YThiZGItMzUxNi00ZjllLWI0OWMtMjFhZTQxYjM4NDQ4XkEyXkFqcGdeQXVyNDgyODgxNjE@._V1_SY1000_CR0,0,759,1000_AL_.jpg', 'Barakamon is a Japanese manga series written and illustrated by Satsuki Yoshino. It started serialization in Square Enix\'s Gangan Online February 2009 issue.', 'true', 3),
@@ -157,13 +157,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `genres`
 --
 ALTER TABLE `genres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
