@@ -25,7 +25,7 @@ exports.addNewGenre = (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            helper.response(res, error, 401, "Oops something went wrong!");
+            helper.response(res, "Oops something went wrong!", error, 401, true);
         });
 };
 
@@ -36,7 +36,7 @@ exports.editGenreData = (req, res, next) => {
         helper.response(res, `Genre with id: ${id} is updated`, result, 200, false);
     }).catch(error => {
         console.log(error)
-        helper.response(res, error, 401, "Oops something went wrong!");
+        helper.response(res, "Oops something went wrong!", error, 401, true);
     });
 };
 

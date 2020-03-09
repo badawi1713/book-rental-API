@@ -19,7 +19,7 @@ exports.registerUser = (req, res, next) => {
     console.log(data.email);
     User.register(data)
         .then(result => {
-            helper.response(res, result);
+            helper.response(res, "New user has been registered", result, 201, false);
             console.log("New user has been registered");
         })
         .catch(error => {
@@ -41,17 +41,17 @@ exports.loginUser = (req, res, next) => {
                 email: userData.email,
                 id: userData.id
             }, process.env.SECRET_KEY, {
-                expiresIn: '1200s'
+                expiresIn: '3600s'
             })
 
             delete userData.salt;
             delete userData.password;
-            return helper.response(res, userData)
+            return helper.response(res, "Login success", userData, 200, false)
         } else {
-            return helper.response(res, null, 403, "Wrong Password Or Email")
+            return helper.response(res, "Access denied. Email or Password is wrong", null, 401, true)
         }
     }).catch(error => {
-        console.log(error)
-        return response.response(res, null, 404, "Email is not registered")
+        // console.log(error)
+        return helper.response(res, "Email is not registered", `Please make sure your email and password is correct`, 404, true)
     })
 }

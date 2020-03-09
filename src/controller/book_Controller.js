@@ -13,7 +13,6 @@ exports.getAllBooks = (req, res, next) => {
   Book.getBooksCount().then(result => {
     let total = result[0].TotalBooks
     // console.log('total books:', total);
-
     Book.getAllBooks(search, sortBy, sort, offset, limit)
       .then(data => {
         //   res.json(result);
@@ -34,11 +33,11 @@ exports.getAllBooks = (req, res, next) => {
         // console.log(data[0])
       })
       .catch(error => {
-        helper.response(res, null, 404, "Data is not found", error);
+        helper.response(res, `Data is not found`, error, 404, true);
         console.log(error);
       });
   }).catch(error => {
-    helper.response(res, null, 404, "Data is not found");
+    helper.response(res, `Data is not found`, error, 404, true);
     console.log(error);
   });
 
@@ -58,12 +57,22 @@ exports.addNewBook = (req, res, next) => {
   Book.addNewBook(bookData)
     .then(result => {
       console.log(result);
+      let data = {
+        id: result.insertId,
+        title: req.body.title,
+        released_date: req.body.released_date,
+        imageURL: req.body.imageURL,
+        description: req.body.description,
+        available: req.body.available,
+        genre: req.body.genre
+
+      }
       console.log("Data has been added!");
-      helper.response(res, result, 201, null);
+      helper.response(res, `New book data has been added`, data, 201, false);
     })
     .catch(error => {
       console.log(error);
-      helper.response(res, error, 404, "Data is not found");
+      helper.response(res, `Bad Server`, error, 500, true);
     });
 
 };
@@ -80,33 +89,54 @@ exports.editBookData = (req, res, next) => {
   };
   Book.editBookData(newData, id)
     .then(result => {
+      let dataResult = {
+        id: req.params.id,
+        title: req.body.title,
+        released_date: req.body.released_date,
+        imageURL: req.body.imageURL,
+        description: req.body.description,
+        available: req.body.available,
+        genre: req.body.genre
+      }
       if (result.affectedRows === 0) {
-        helper.response(res, result, 404, "Data is not found");
+        helper.response(res, `Book with id: ${id} is not found`, result, 404, true);
       } else {
         // console.log(result);
         console.log(`Data with id ${id} has been changed!`);
-        helper.response(res, result, 200, null);
+        helper.response(res, `Book with ${id} has been updated`, dataResult, 200, false);
       }
     })
     .catch(error => {
       console.log(error);
-      helper.response(res, error, 404, "Data is not found");
+      helper.response(res, "Something wrong", 400, error, true);
     });
 
 };
 
 exports.deleteBookData = (req, res, next) => {
   const id = req.params.id;
-  Book.deleteBookData(id)
-    .then(result => {
-      console.log(result);
-      console.log(`Book with ${id} has been deleted`);
-      helper.response(res, result, 200, null);
-    })
-    .catch(error => {
-      console.log(error);
-      helper.response(res, error, 404, "Data is not found");
-    });
+  Book.getBookByID(id).then(data => {
+    // console.log(data[0])
+    const getData = data[0]
+    Book.deleteBookData(id)
+      .then(result => {
+        // console.log(getData)
+        if (result.affectedRows === 0) {
+          console.log(`Book with id: ${id} is not found`)
+          helper.response(res, `Book with id: ${id} is not found`, ['data is not found'], 404, true);
+        } else {
+          console.log(`Book with ${id} has been deleted`);
+          helper.response(res, `Book with id: ${id} has been deleted`, getData, 200, false);
+        }
+      })
+      .catch(error => {
+        // console.log(error);
+        helper.response(res, "Something wrong", 400, error, true);
+      });
+  }).catch(error => {
+    helper.response(res, "Something wrong", 400, error, true);
+  });
+
 
 };
 
@@ -115,11 +145,11 @@ exports.getBookDataByID = (req, res, next) => {
   Book.getBookByID(id)
     .then(result => {
       console.log(result);
-      helper.response(res, result, 200, null);
+      helper.response(res, `Get book data with id ${id}`, result, 200, false);
     })
     .catch(error => {
       console.log(error);
-      helper.response(res, error, 404, "Data is not found");
+      helper.response(res, `Book with id: ${id} is not found`, error, 404, true);
     });
 
 };
@@ -127,50 +157,47 @@ exports.getBookDataByID = (req, res, next) => {
 exports.rentBook = (req, res, next) => {
   const id = req.params.id;
   Book.getBookByID(id).then(result => {
-    console.log(result[0].available)
+    // console.log(result[0].available)
+    const getData = result[0]
     if (result[0].available !== "false") {
       const available = req.body.available;
       Book.rentBook(available, id).then((result) => {
-          console.log(result);
-          helper.response(res, result, 200, null);
+          // console.log(result);
+          helper.response(res, `Book with id: ${id} is rented`, getData, 200, false);
         })
         .catch((error) => {
-          helper.response(res, null, 500, "Server Error");
+          helper.response(res, `Bad Server`, error, 500, true);
           console.log(error);
         })
     } else {
-      helper.response(res, "You cannot rent this book!", result, 200, null);
+      helper.response(res, "You cannot rent this book!", result, 200, true);
       console.log('You cannot rent this book!')
     }
   }).catch(error => {
     console.log(error)
-    helper.response(res, null, 500, "Server Error");
+    helper.response(res, `Bad Server`, error, 500, true);
   })
 
 
 };
 
 exports.returnBook = (req, res, next) => {
-  // let requireCheck = [];
-  // !available ? requireCheck.push('available in body is required') : '';
-  // if (requireCheck.length) {
-  //   return helper.response(res, error, 400, "Error");
-  // }
   const id = req.params.id;
   Book.getBookByID(id).then(result => {
     // console.log(result[0].available)
+    const getData = result[0]
     if (result[0].available !== "true") {
       const available = req.body.available;
       Book.returnBook(available, id).then((result) => {
           console.log(result);
-          helper.response(res, result, 200, null);
+          helper.response(res, `Book with id: ${id} has been return`, getData, 200, false);
         })
         .catch((error) => {
-          helper.response(res, null, 500, "Server Error");
+          helper.response(res, `Bad Server`, error, 500, true);
           console.log(error);
         })
     } else {
-      helper.response(res, "Book is still available", result, 200, null);
+      helper.response(res, `Book with id: ${id} is still available`, result, 200, true);
       console.log('Book is still available')
     }
   }).catch(error => {

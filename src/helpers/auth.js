@@ -11,7 +11,7 @@ module.exports = {
         // console.log(headerSecret)
         if (headerAuth !== allowedAccess) {
             console.log(allowedAccess);
-            return helper.response(res, "Sorry you are Unauthorized", [], 401, true);
+            return helper.response(res, "Sorry you are Unauthorized", null, 401, true);
         } else if (typeof headerSecret === "undefined") {
             next();
         } else {
@@ -31,16 +31,22 @@ module.exports = {
         console.log('access token:', accessToken)
         console.log(userToken)
         console.log(secretKey)
+        if (userToken === undefined) {
+            return helper.response(res, "User-token header is undefined", null, 400, true);
+        }
+
         jwt.verify(accessToken, secretKey, (error, decode) => {
+            if (decode.id === undefined) {
+                return helper.response(res, "Please login first", null, 401, true);
+            }
             if (error && error.name === "TokenExpired")
-                return helper.response(res, null, 402, "Token Expired");
+                return helper.response(res, "Token is expired", null, 400, true);
 
             if (error && error.name === "JsonWebTokenError")
-                return helper.response(res, null, 402, "Invalid Token");
+                return helper.response(res, "Invalid token", null, 400, true);
 
             if (parseInt(userToken) !== parseInt(decode.id))
-                //
-                return helper.response(res, null, 402, "Invalid User Token");
+                return helper.response(res, "Invalid user token", null, 400, true);
         });
         next()
     }

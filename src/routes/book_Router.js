@@ -12,11 +12,4 @@ router.patch("/rent/:id", auth.authInfo, auth.accessToken, book_Controller.rentB
 router.patch("/return/:id", auth.authInfo, auth.accessToken, book_Controller.returnBook);
 router.delete("/delete/:id", auth.authInfo, auth.accessToken, book_Controller.deleteBookData);
 
-// router.get("/books", admin_Controller.getBookPagination);
-// router.get("/search", admin_Controller.getSearchBookByTitle);
-// router.get("/sort-by-title", admin_Controller.getSortBookByTitle);
-// router.get("/sort-by-date", admin_Controller.getSortBookByDate);
-// router.get("/sort-by-genre", admin_Controller.getSortBookByGenre);
-// router.get("/sort-by-available", admin_Controller.getSortBookByAvailable);
-
 module.exports = router;
