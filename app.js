@@ -18,11 +18,11 @@ app.use(
 app.use(logger("dev"));
 
 // registered router
-const book_router = require("./src/routes/book_Router");
-const genre_router = require("./src/routes/genre_Router");
-const auth_router = require("./src/routes/auth_Router");
+const book_router = require("./src/routes/bookRouter");
+const genre_router = require("./src/routes/genreRouter");
+const user_router = require("./src/routes/userRouter");
 
-app.use("/api/v1/users", auth_router);
+app.use("/api/v1/users", user_router);
 app.use("/api/v1/books", book_router);
 app.use("/api/v1/genres", genre_router);
 

@@ -1,6 +1,6 @@
 require("dotenv").config();
 const helper = require("../helpers/response");
-const User = require("../model/user_Model");
+const User = require("../model/userModel");
 const moment = require("moment");
 const jwt = require('jsonwebtoken')
 

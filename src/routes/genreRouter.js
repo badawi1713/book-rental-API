@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const genre_Controller = require("../controller/genre_Controller");
+const genre_Controller = require("../controller/genreController");
 const auth = require("../helpers/auth")
 
 router.get("/", auth.authInfo, auth.accessToken, genre_Controller.getAllGenre);

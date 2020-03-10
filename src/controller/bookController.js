@@ -1,4 +1,4 @@
-const Book = require("../model/book_Model");
+const Book = require("../model/bookModel");
 const helper = require("../helpers/response");
 // const moment = require("moment");
 
@@ -26,7 +26,7 @@ exports.getAllBooks = (req, res, next) => {
           prevLink: `http://localhost:3001${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`
         }
         if (data[0] !== undefined) {
-          helper.responsePagination(res, 'OK', 200, false, pageDetail, data)
+          helper.responsePagination(res, 'List of all books', 200, false, pageDetail, data)
         } else {
           helper.responsePagination(res, 'Data is not found', 404, true, pageDetail, data)
         }
@@ -163,14 +163,14 @@ exports.rentBook = (req, res, next) => {
       const available = req.body.available;
       Book.rentBook(available, id).then((result) => {
           // console.log(result);
-          helper.response(res, `Book with id: ${id} is rented`, getData, 200, false);
+          helper.response(res, `Rent the book with id: ${id} success`, getData, 200, false);
         })
         .catch((error) => {
           helper.response(res, `Bad Server`, error, 500, true);
           console.log(error);
         })
     } else {
-      helper.response(res, "You cannot rent this book!", result, 200, true);
+      helper.response(res, "Can't rent the book!", result, 200, true);
       console.log('You cannot rent this book!')
     }
   }).catch(error => {
@@ -190,7 +190,7 @@ exports.returnBook = (req, res, next) => {
       const available = req.body.available;
       Book.returnBook(available, id).then((result) => {
           console.log(result);
-          helper.response(res, `Book with id: ${id} has been return`, getData, 200, false);
+          helper.response(res, `Returned book with id: ${id} success`, getData, 200, false);
         })
         .catch((error) => {
           helper.response(res, `Bad Server`, error, 500, true);

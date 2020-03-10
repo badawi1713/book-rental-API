@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const book_Controller = require("../controller/book_controller");
+const book_Controller = require("../controller/bookController");
 const auth = require("../helpers/auth")
 
 // List of book's routes

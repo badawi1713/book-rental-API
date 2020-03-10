@@ -1,9 +1,20 @@
-const connection = require('../config/db_connection');
+const connection = require('../config/dbConnection');
 
 module.exports = {
     getAllGenre: () => {
         return new Promise((resolve, reject) => {
             connection.query(`SELECT * FROM genres ORDER BY id ASC`, (error, result) => {
+                if (!error) {
+                    resolve(result)
+                } else {
+                    reject(new Error(error))
+                }
+            })
+        })
+    },
+    getGenreByID: (id) => {
+        return new Promise((resolve, reject) => {
+            connection.query(`SELECT * FROM genres WHERE id = ?`, [id], (error, result) => {
                 if (!error) {
                     resolve(result)
                 } else {
