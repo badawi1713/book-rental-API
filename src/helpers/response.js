@@ -20,7 +20,10 @@ module.exports = {
     return res.status(resultPrint.status).json(resultPrint);
   },
   getRandomSalt: length => {
-    return crypto.randomBytes(Math.ceil(length * 4)).toString("hex").slice(0, length); //generate password salt
+    return crypto
+      .randomBytes(Math.ceil(length * 4))
+      .toString("hex")
+      .slice(0, length); //generate password salt
   },
   setPassword: (password, salt) => {
     let hashPassword = crypto.createHmac("sha256", salt);
